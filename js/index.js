@@ -62,6 +62,7 @@ while (true) {
             break;
         case '5':
             salirTareas();
+            break;
         default:
             console.log('Opción no válida. Por favor, seleccione una opción válida.');
     }
