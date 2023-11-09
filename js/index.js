@@ -38,7 +38,7 @@ function salirTareas(){
     salir = prompt("¿Seguro que desea salir? (SI / NO)").toLowerCase();
     if (salir === "si"){
         alert("Ha salido del programa");
-        // process.exit(0);
+        process.exit(0);
     } else {
         console.log("Elija de nuevo.");
     }
@@ -62,7 +62,6 @@ while (true) {
             break;
         case '5':
             salirTareas();
-            break;
         default:
             console.log('Opción no válida. Por favor, seleccione una opción válida.');
     }
