@@ -34,6 +34,16 @@ function eliminarTarea() {
     }
 }
 
+function salirTareas(){
+    salir = prompt("¿Seguro que desea salir? (SI / NO)").toLowerCase();
+    if (salir === "si"){
+        alert("Ha salido del programa");
+        process.exit(0);
+    } else {
+        console.log("Elija de nuevo.");
+    }
+}
+
 while (true) {
     const opcion = prompt('Elija una opción:\n1. Agregar tarea\n2. Listar tareas\n3. Completar tarea\n4. Eliminar tarea\n5. Salir');
 
@@ -51,8 +61,7 @@ while (true) {
             eliminarTarea();
             break;
         case '5':
-            alert("Ha salido del programa")
-            process.exit(0);
+            salirTareas();
         default:
             console.log('Opción no válida. Por favor, seleccione una opción válida.');
     }
