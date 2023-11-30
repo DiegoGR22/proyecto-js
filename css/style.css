@@ -47,3 +47,8 @@ h1{
 .opciones button:hover {
     background-color: #45a049;
 }
+
+.completada{
+    background-color: #08510a; 
+    color: #fff;
+}

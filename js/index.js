@@ -16,6 +16,8 @@ function agregarTarea() {
     tareas.push(nuevaTarea);
 
     actualizarTareas();
+
+    document.getElementById('instrucciones').innerHTML = 'Hacer click para completar';
 }
 
 function actualizarTareas() {
@@ -33,6 +35,13 @@ function actualizarTareas() {
 }
 
 function cambiarEstadoTarea(i) {
+    document.body.classList.toggle("pendiente");
+    if(document.body.classList.contains("pendiente")){
+        sessionStorage.setItem("estado", "pendiente");
+    } else {
+        sessionStorage.setItem("estado", "completada");
+    }
+
     tareas[i].completada = !tareas[i].completada;
     actualizarTareas();
 }
@@ -49,7 +58,12 @@ function eliminarTarea() {
     }
 
     actualizarTareas();
+    
+    if (tareas.length <= 0) {
+        document.getElementById('instrucciones').innerHTML = '';
+    }
 }
+
 
 const btnSalir = document.getElementById('btnSalir');
 btnSalir.addEventListener('click',salirTareas);
