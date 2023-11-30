@@ -40,8 +40,14 @@ function cambiarEstadoTarea(i) {
 const btnEliminar = document.getElementById('btnEliminar');
 btnEliminar.addEventListener('click',eliminarTarea);
 
-function eliminarTarea(i) {
-    tareas.splice(i, 1);
+function eliminarTarea() {
+    const indice = parseInt(prompt('Ingrese el número de la tarea que desea eliminar:'));
+    if (isNaN(indice) || indice < 1 || indice > tareas.length) {
+        console.log('Número de tarea no válido. Inténtelo de nuevo.');
+    } else {
+        const tareaEliminada = tareas.splice(indice - 1, 1);
+    }
+
     actualizarTareas();
 }
 
