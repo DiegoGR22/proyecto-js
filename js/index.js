@@ -29,19 +29,15 @@ function actualizarTareas() {
         const listItem = document.createElement('li');
         listItem.textContent = `${i + 1}. ${tarea.nombre} (${estado})`;
 
+        listItem.classList.toggle("completada", tarea.completada);
+        listItem.classList.toggle("pendiente", !tarea.completada);
+
         listItem.onclick = () => cambiarEstadoTarea(i);
         listaTareas.appendChild(listItem);
     });
 }
 
 function cambiarEstadoTarea(i) {
-    document.body.classList.toggle("pendiente");
-    if(document.body.classList.contains("pendiente")){
-        sessionStorage.setItem("estado", "pendiente");
-    } else {
-        sessionStorage.setItem("estado", "completada");
-    }
-
     tareas[i].completada = !tareas[i].completada;
     actualizarTareas();
 }
