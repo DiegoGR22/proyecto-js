@@ -5,7 +5,17 @@ class Tarea{
     }
 }
 
-const tareas = [];
+let tareas = [];
+
+function cargarTareasDesdeStorage() {
+    const tareasGuardadas = localStorage.getItem('tareas');
+    if (tareasGuardadas) {
+        tareas = JSON.parse(tareasGuardadas);
+        actualizarTareas();
+    }
+}
+
+cargarTareasDesdeStorage();
 
 const btnAgregar = document.getElementById('btnAgregar');
 btnAgregar.addEventListener('click',agregarTarea);
@@ -18,6 +28,8 @@ function agregarTarea() {
     actualizarTareas();
 
     document.getElementById('instrucciones').innerHTML = 'Hacer click para completar';
+
+    guardarTareasEnStorage();
 }
 
 function actualizarTareas() {
@@ -40,6 +52,8 @@ function actualizarTareas() {
 function cambiarEstadoTarea(i) {
     tareas[i].completada = !tareas[i].completada;
     actualizarTareas();
+
+    guardarTareasEnStorage();
 }
 
 const btnEliminar = document.getElementById('btnEliminar');
@@ -48,7 +62,7 @@ btnEliminar.addEventListener('click',eliminarTarea);
 function eliminarTarea() {
     const indice = parseInt(prompt('Ingrese el número de la tarea que desea eliminar:'));
     if (isNaN(indice) || indice < 1 || indice > tareas.length) {
-        console.log('Número de tarea no válido. Inténtelo de nuevo.');
+        alert('Número de tarea no válido. Inténtelo de nuevo.');
     } else {
         const tareaEliminada = tareas.splice(indice - 1, 1);
     }
@@ -58,6 +72,8 @@ function eliminarTarea() {
     if (tareas.length <= 0) {
         document.getElementById('instrucciones').innerHTML = '';
     }
+
+    guardarTareasEnStorage();
 }
 
 
@@ -68,6 +84,10 @@ function salirTareas(){
     const salir = confirm("¿Seguro que desea salir?");
     if (salir){
         alert("Ha salido del programa");
-        process.exit(0);
+        // process.exit(0);
     }
+}
+
+function guardarTareasEnStorage() {
+    localStorage.setItem('tareas', JSON.stringify(tareas));
 }
