@@ -60,16 +60,21 @@ async function agregarTarea() {
         }
     });
 
-    const nuevaTarea = new Tarea(tareaNombre);
-    tareas.push(nuevaTarea);
+    console.log(tareaNombre);  // Solo para verificar
+
+    if(tareaNombre !== undefined) {
+        const nuevaTarea = new Tarea(tareaNombre);
+        tareas.push(nuevaTarea);
+        Swal.fire('Tarea agregada', `La tarea "${tareaNombre}" ha sido agregada correctamente.`, 'success');
+    } else{
+        Swal.fire('Inténtelo de nuevo', `No ha escrito nada.`, 'warning');
+    }
 
     actualizarTareas();
 
     document.getElementById('instrucciones').innerHTML = 'Hacer click para completar';
 
     guardarTareasEnStorage();
-
-    Swal.fire('Tarea agregada', `La tarea "${tareaNombre}" ha sido agregada correctamente.`, 'success');
 }
 
 function actualizarTareas() {
