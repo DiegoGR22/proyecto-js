@@ -17,6 +17,31 @@ function cargarTareasDesdeStorage() {
 
 cargarTareasDesdeStorage();
 
+// let tareasCargadasDesdeAPI = false; 
+function cargarTareasDesdeAPI() {
+    
+    const apiUrl = 'https://jsonplaceholder.typicode.com/todos';
+
+    if (tareas.length === 0) {
+        fetch(apiUrl)
+            .then((response) => response.json())
+            .then(response => {
+                // Solo los primeros 10 elementos de la API
+                tareas = response.slice(0, 10).map(item => new Tarea(item.title, item.completed));
+                actualizarTareas();
+                // tareasCargadasDesdeAPI = true;
+                guardarTareasEnStorage();
+            })
+            .catch(error => {
+                console.error('Error al cargar las tareas desde la API:', error);
+            });
+    }
+}
+
+cargarTareasDesdeAPI();
+
+// window.addEventListener('load', cargarTareasDesdeAPI);
+
 const btnAgregar = document.getElementById('btnAgregar');
 btnAgregar.addEventListener('click',agregarTarea);
 
