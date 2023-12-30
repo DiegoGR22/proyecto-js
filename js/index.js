@@ -45,8 +45,21 @@ cargarTareasDesdeAPI();
 const btnAgregar = document.getElementById('btnAgregar');
 btnAgregar.addEventListener('click',agregarTarea);
 
-function agregarTarea() {
-    const tareaNombre = prompt('Ingrese una nueva tarea:');
+async function agregarTarea() {
+    // const tareaNombre = prompt('Ingrese una nueva tarea:');
+    const {value: tareaNombre} = await Swal.fire({
+        title: "Ingrese una nueva tarea",
+        input: "text",
+        inputLabel: "Tarea nueva",
+        // inputValue,
+        // showCancelButton: true,
+        inputValidator: (value) => {
+            if (!value){
+                return "Debes escribir una tarea";
+            }
+        }
+    });
+
     const nuevaTarea = new Tarea(tareaNombre);
     tareas.push(nuevaTarea);
 
@@ -55,6 +68,8 @@ function agregarTarea() {
     document.getElementById('instrucciones').innerHTML = 'Hacer click para completar';
 
     guardarTareasEnStorage();
+
+    Swal.fire('Tarea agregada', `La tarea "${tareaNombre}" ha sido agregada correctamente.`, 'success');
 }
 
 function actualizarTareas() {
@@ -87,9 +102,11 @@ btnEliminar.addEventListener('click',eliminarTarea);
 function eliminarTarea() {
     const indice = parseInt(prompt('Ingrese el número de la tarea que desea eliminar:'));
     if (isNaN(indice) || indice < 1 || indice > tareas.length) {
-        alert('Número de tarea no válido. Inténtelo de nuevo.');
+        Swal.fire('Inténtelo de nuevo', `Número de tarea no válido.`, 'warning');
+        // alert('Número de tarea no válido. Inténtelo de nuevo.');
     } else {
         const tareaEliminada = tareas.splice(indice - 1, 1);
+        Swal.fire('Tarea eliminada', `La tarea #${indice} ha sido eliminada correctamente.`, 'error');
     }
 
     actualizarTareas();
@@ -99,6 +116,8 @@ function eliminarTarea() {
     }
 
     guardarTareasEnStorage();
+
+    // Swal.fire('Tarea eliminada', `La tarea #${indice} ha sido eliminada correctamente.`, 'error');
 }
 
 
@@ -106,11 +125,29 @@ const btnSalir = document.getElementById('btnSalir');
 btnSalir.addEventListener('click',salirTareas);
 
 function salirTareas(){
-    const salir = confirm("¿Seguro que desea salir?");
-    if (salir){
-        alert("Ha salido del programa");
-        // process.exit(0);
-    }
+    // const salir = confirm("¿Seguro que desea salir?");
+    // if (salir){
+    //     alert("Ha salido del programa");
+    //     // process.exit(0);
+    // }
+
+    Swal.fire({
+        title: '¿Seguro que desea salir?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, salir',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire('Ha salido del programa', '', 'success');
+            // window.close();
+            localStorage.removeItem('tareas');      // Se borra del localStorage
+            // actualizarTareas();
+            setInterval(() => {
+                window.location.href = '../pages/salir.html';
+            }, 2000);
+        }
+    });
 }
 
 function guardarTareasEnStorage() {
