@@ -157,7 +157,8 @@ function salirTareas(){
             localStorage.removeItem('tareas');      // Se borra del localStorage
             // actualizarTareas();
             setInterval(() => {
-                window.location.href = '../pages/salir.html';
+                // window.location.href = '../pages/salir.html';
+                window.location.assign = ('/pages/salir.html');
             }, 2000);
         }
     });
