@@ -99,8 +99,24 @@ function cambiarEstadoTarea(i) {
 const btnEliminar = document.getElementById('btnEliminar');
 btnEliminar.addEventListener('click',eliminarTarea);
 
-function eliminarTarea() {
-    const indice = parseInt(prompt('Ingrese el número de la tarea que desea eliminar:'));
+async function eliminarTarea() {
+    // const indice = parseInt(prompt('Ingrese el número de la tarea que desea eliminar:'));
+    const {value: indiceStr} = await Swal.fire({
+        title: "Ingrese el número de la tarea que desea eliminar",
+        input: "text",
+        inputLabel: "Tarea a eliminar",
+        // inputValue,
+        // showCancelButton: true,
+        inputValidator: (value) => {
+            if (!value){
+                return "Debes elegir un número de tarea";
+            }
+        }
+    });
+
+    // Esto es xq SweetAlert usa un string de input entonces el parseInt antes no lo acepta
+    const indice = parseInt(indiceStr);
+
     if (isNaN(indice) || indice < 1 || indice > tareas.length) {
         Swal.fire('Inténtelo de nuevo', `Número de tarea no válido.`, 'warning');
         // alert('Número de tarea no válido. Inténtelo de nuevo.');
@@ -116,8 +132,6 @@ function eliminarTarea() {
     }
 
     guardarTareasEnStorage();
-
-    // Swal.fire('Tarea eliminada', `La tarea #${indice} ha sido eliminada correctamente.`, 'error');
 }
 
 
@@ -125,12 +139,6 @@ const btnSalir = document.getElementById('btnSalir');
 btnSalir.addEventListener('click',salirTareas);
 
 function salirTareas(){
-    // const salir = confirm("¿Seguro que desea salir?");
-    // if (salir){
-    //     alert("Ha salido del programa");
-    //     // process.exit(0);
-    // }
-
     Swal.fire({
         title: '¿Seguro que desea salir?',
         icon: 'question',
